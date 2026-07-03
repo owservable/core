@@ -2,6 +2,8 @@
 
 # @owservable/core
 
+[📖 API Docs](https://owservable.github.io/core/docs/) · [✅ Coverage](https://owservable.github.io/core/coverage/)
+
 The database-agnostic heart of the owservable reactive stack: the websocket subscription protocol, the reactive stores, and the `IObservableBackend` interface that database adapters implement.
 
 Pair it with a backend adapter:

@@ -65,4 +65,4 @@ typings/
 # WebStorm
 .idea
 /.scannerwork/
-/lib/
+lib/

@@ -4,8 +4,12 @@ import IObservableBackend from './i.observable.backend';
 
 export default class BackendRegistry {
 	public static register(observe: string, backend: IObservableBackend): void {
-		if (BackendRegistry._backends.has(observe)) {
-			console.warn(`[@owservable/core] -> BackendRegistry: overwriting backend registration for "${observe}"`);
+		const existing: IObservableBackend | undefined = BackendRegistry._backends.get(observe);
+		if (existing) {
+			console.warn(
+				`[@owservable/core] -> BackendRegistry: duplicate backend registration for "${observe}" ignored, keeping ${existing.constructor.name} and rejecting ${backend.constructor.name}`
+			);
+			return;
 		}
 		BackendRegistry._backends.set(observe, backend);
 	}

@@ -41,7 +41,7 @@ describe('backend.registry tests', () => {
 		expect(BackendRegistry.keys()).toEqual([]);
 	});
 
-	it('warns when overwriting an existing registration', () => {
+	it('rejects a duplicate registration, warns and keeps the original', () => {
 		const warnSpy: jest.SpyInstance = jest.spyOn(console, 'warn').mockImplementation();
 		const first: IObservableBackend = createBackend('users');
 		const second: IObservableBackend = createBackend('users');
@@ -50,8 +50,8 @@ describe('backend.registry tests', () => {
 			expect(warnSpy).not.toHaveBeenCalled();
 
 			BackendRegistry.register('users', second);
-			expect(warnSpy).toHaveBeenCalledWith('[@owservable/core] -> BackendRegistry: overwriting backend registration for "users"');
-			expect(BackendRegistry.get('users')).toBe(second);
+			expect(warnSpy).toHaveBeenCalledWith('[@owservable/core] -> BackendRegistry: duplicate backend registration for "users" ignored, keeping Object and rejecting Object');
+			expect(BackendRegistry.get('users')).toBe(first);
 			expect(BackendRegistry.keys()).toEqual(['users']);
 		} finally {
 			warnSpy.mockRestore();

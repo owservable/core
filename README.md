@@ -10,6 +10,7 @@ Pair it with a backend adapter:
 
 - [@owservable/mongodb](https://github.com/owservable/mongodb) — MongoDB change streams via mongoose
 - [@owservable/postgres](https://github.com/owservable/postgres) — PostgreSQL LISTEN/NOTIFY via MikroORM
+- [@owservable/sqlite](https://github.com/owservable/sqlite) — SQLite journal-trigger live updates via MikroORM (cross-process capable)
 
 ## 🚀 Features
 

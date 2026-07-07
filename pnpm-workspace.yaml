@@ -7,6 +7,7 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@owservable/actions'
   - '@owservable/folders'
+  - request@2.88.3
 
 overrides:
   'mem@<4.0.0': '>=4.0.0'

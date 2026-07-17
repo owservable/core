@@ -1,7 +1,7 @@
 'use strict';
 
 import Timeout = NodeJS.Timeout;
-import {get, includes, join} from 'lodash';
+import {get, includes} from 'lodash';
 import {Subject, Subscription} from 'rxjs';
 
 import AStore from './store/a.store';
@@ -157,7 +157,7 @@ export default class OwservableClient extends Subject<any> {
 			payload: {
 				event,
 				target,
-				availableTargets: join(targets, ', ')
+				availableTargets: targets.join(', ')
 			}
 		});
 	}

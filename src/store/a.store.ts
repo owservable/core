@@ -4,7 +4,7 @@ import sift from 'sift';
 import {randomUUID} from 'node:crypto';
 import {createRequire} from 'node:module';
 import type {DiffPatcher} from 'jsondiffpatch';
-import {cloneDeep, each, get, includes, isArray, isEmpty, isNil, omit, omitBy, set, values} from 'lodash';
+import {cloneDeep, each, get, includes, isEmpty, isNil, omit, omitBy, set} from 'lodash';
 
 import {throttleTime} from 'rxjs/operators';
 import {asyncScheduler, Subject, Subscription} from 'rxjs';
@@ -128,7 +128,7 @@ export default abstract class AStore extends Subject<any> {
 
 		this._delay = delayResolved;
 
-		if (isArray(fieldsResolved)) {
+		if (Array.isArray(fieldsResolved)) {
 			this._fields = {};
 			each(fieldsResolved, (field: string) => set(this._fields, field, 1));
 		} else {
@@ -233,7 +233,7 @@ export default abstract class AStore extends Subject<any> {
 	}
 
 	protected shouldConsiderFields(): boolean {
-		return !isEmpty(this._fields) && !includes(values(this._fields), 0);
+		return !isEmpty(this._fields) && !includes(Object.values(this._fields), 0);
 	}
 
 	public set config(config: StoreSubscriptionConfigType) {

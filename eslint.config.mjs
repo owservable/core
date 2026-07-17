@@ -57,5 +57,19 @@ export default tseslint.config(
 			'no-empty': 'off',
 			'sonarjs/pseudo-random': 'off'
 		}
+	},
+	{
+		files: [
+			'src/functions/action/add.action.cronjobs.ts',
+			'src/functions/action/add.action.watchers.ts',
+			'src/functions/action/add.action.workers.ts',
+			'src/functions/execute/execute.on.files.recursively.ts',
+			'test/functions/action/add.action.cronjobs.spec.ts',
+			'test/functions/action/add.action.watchers.spec.ts',
+			'test/functions/action/add.action.workers.spec.ts'
+		],
+		rules: {
+			'@typescript-eslint/no-require-imports': 'off'
+		}
 	}
 );

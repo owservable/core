@@ -142,6 +142,26 @@ describe('collection.store tests', () => {
 			};
 			expect((mockStore as any).shouldReload(change)).toBe(false);
 		});
+
+		it('should tolerate updateDescription without updatedFields', () => {
+			const change: any = {
+				operationType: 'update',
+				updateDescription: {removedFields: ['status']}
+			};
+			expect((mockStore as any).shouldReload(change)).toBe(true);
+		});
+
+		it('should tolerate a null query when intersecting updated fields', () => {
+			(mockStore as any)._query = null;
+			const change: any = {
+				operationType: 'insert',
+				updateDescription: {
+					updatedFields: {status: 'active'},
+					removedFields: []
+				}
+			};
+			expect((mockStore as any).shouldReload(change)).toBe(true);
+		});
 	});
 
 	describe('sendCount', () => {

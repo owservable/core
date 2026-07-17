@@ -65,8 +65,8 @@ export default class DocumentStore extends AStore {
 				if (!this.shouldConsiderFields()) return true;
 
 				const {updatedFields, removedFields} = description;
-				const us: any[] = _.concat(removedFields, _.keys(updatedFields));
-				const qs: string[] = _.keys(this._fields);
+				const us: any[] = ([] as any[]).concat(removedFields, Object.keys(updatedFields ?? {}));
+				const qs: string[] = Object.keys(this._fields);
 				return !_.isEmpty(_.intersection(qs, us));
 			}
 		}

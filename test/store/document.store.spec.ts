@@ -188,6 +188,21 @@ describe('document.store tests', () => {
 			};
 			expect((mockStore as any).shouldReload(change)).toBe(false);
 		});
+
+		it('should tolerate updateDescription without updatedFields', () => {
+			mockStore.config = {
+				query: {_id: 'test-id'},
+				fields: {name: 1, email: 1},
+				strict: false,
+				incremental: false
+			} as any;
+			const change: any = {
+				operationType: 'update',
+				documentKey: {_id: 'different-id'},
+				updateDescription: {removedFields: ['name']}
+			};
+			expect((mockStore as any).shouldReload(change)).toBe(true);
+		});
 	});
 
 	describe('restartSubscription', () => {

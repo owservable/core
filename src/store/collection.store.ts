@@ -25,8 +25,8 @@ export default class CollectionStore extends AStore {
 		if (!updateDescription) return true;
 
 		const {updatedFields, removedFields} = updateDescription;
-		const us: string[] = _.concat(removedFields, _.keys(updatedFields));
-		if (!_.isEmpty(_.intersection(_.keys(this._query), us))) return true;
+		const us: string[] = ([] as string[]).concat(removedFields, Object.keys(updatedFields ?? {}));
+		if (!_.isEmpty(_.intersection(Object.keys(this._query ?? {}), us))) return true;
 
 		switch (operationType) {
 			case 'delete':
@@ -35,7 +35,7 @@ export default class CollectionStore extends AStore {
 
 			case 'replace':
 			case 'update':
-				if (this.shouldConsiderFields()) return !_.isEmpty(_.intersection(_.keys(this._fields), us));
+				if (this.shouldConsiderFields()) return !_.isEmpty(_.intersection(Object.keys(this._fields), us));
 				return this.testDocument(fullDocument);
 		}
 

@@ -9,6 +9,7 @@ import AStore from './a.store';
 import EStoreType from '../enums/store.type.enum';
 import IObservableBackend from '../backend/i.observable.backend';
 import getHrtimeAsNumber from '../functions/performance/get.hrtime.as.number';
+import changedFields from '../functions/query/changed.fields';
 
 // tslint:disable-next-line:variable-name
 const _getIdFromQuery = (query: any): string => (_.isString(query) ? query : _.get(query, '_id', '').toString());
@@ -61,13 +62,11 @@ export default class DocumentStore extends AStore {
 			case 'update': {
 				if (id && id === key) return true;
 				if (!description) return true;
+				if (this.touchesQuery(change)) return true;
 
 				if (!this.shouldConsiderFields()) return true;
 
-				const {updatedFields, removedFields} = description;
-				const us: any[] = ([] as any[]).concat(removedFields, Object.keys(updatedFields ?? {}));
-				const qs: string[] = Object.keys(this._fields);
-				return !_.isEmpty(_.intersection(qs, us));
+				return !_.isEmpty(_.intersection(Object.keys(this._fields), changedFields(change)));
 			}
 		}
 
@@ -116,6 +115,7 @@ export default class DocumentStore extends AStore {
 		const {documentKey, fullDocument: document} = change;
 		const key = _.get(documentKey, '_id', '').toString();
 		if (key === _getIdFromQuery(this._query)) return true;
+		if (this.touchesQuery(change)) return true;
 
 		return this.testDocument(document);
 	}

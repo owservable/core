@@ -6,6 +6,7 @@ import AStore from './a.store';
 import EStoreType from '../enums/store.type.enum';
 import IObservableBackend from '../backend/i.observable.backend';
 import getHrtimeAsNumber from '../functions/performance/get.hrtime.as.number';
+import changedFields from '../functions/query/changed.fields';
 
 export default class CollectionStore extends AStore {
 	private _totalCount: number;
@@ -23,10 +24,7 @@ export default class CollectionStore extends AStore {
 
 		const {operationType, updateDescription, fullDocument} = change;
 		if (!updateDescription) return true;
-
-		const {updatedFields, removedFields} = updateDescription;
-		const us: string[] = ([] as string[]).concat(removedFields, Object.keys(updatedFields ?? {}));
-		if (!_.isEmpty(_.intersection(Object.keys(this._query ?? {}), us))) return true;
+		if (this.touchesQuery(change)) return true;
 
 		switch (operationType) {
 			case 'delete':
@@ -35,7 +33,7 @@ export default class CollectionStore extends AStore {
 
 			case 'replace':
 			case 'update':
-				if (this.shouldConsiderFields()) return !_.isEmpty(_.intersection(Object.keys(this._fields), us));
+				if (this.shouldConsiderFields()) return !_.isEmpty(_.intersection(Object.keys(this._fields), changedFields(change)));
 				return this.testDocument(fullDocument);
 		}
 
@@ -55,6 +53,7 @@ export default class CollectionStore extends AStore {
 
 		const key = _.get(documentKey, '_id', '').toString();
 		if ('delete' === operationType) return this.emitDelete(startTime, currentLoadSubscriptionId, key);
+		if (!this.testDocument(fullDocument)) return this.emitDelete(startTime, currentLoadSubscriptionId, key);
 
 		for (const populate of this._populates) {
 			await this._backend.populate(fullDocument, populate);
@@ -81,8 +80,6 @@ export default class CollectionStore extends AStore {
 		if (this.isQueryChange(currentLoadSubscriptionId)) {
 			this.emitMany(startTime, currentLoadSubscriptionId, {total: this._totalCount, data: documents, recounting: true});
 			await this.sendCount(currentLoadSubscriptionId);
-
-			//
 		} else {
 			this.emitMany(startTime, currentLoadSubscriptionId, {total: this._totalCount, data: documents});
 			this.delaySendCount(currentLoadSubscriptionId);

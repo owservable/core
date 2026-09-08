@@ -15,7 +15,7 @@ export default class CountStore extends AStore {
 	protected shouldReload(change: any): boolean {
 		if (this.isInitialSubscription(change)) return true;
 
-		const {operationType: type} = change;
+		const {operationType: type, updateDescription} = change;
 		switch (type) {
 			case 'delete':
 			case 'insert':
@@ -23,6 +23,9 @@ export default class CountStore extends AStore {
 
 			case 'replace':
 			case 'update':
+				if (!updateDescription) return true;
+				return this.touchesQuery(change);
+
 			default:
 				return false;
 		}

@@ -138,6 +138,24 @@ describe('document.store tests', () => {
 			expect((mockStore as any).shouldReload(change)).toBe(true);
 		});
 
+		it('should return true if the update touches a query field even when projection does not intersect', () => {
+			mockStore.config = {
+				query: {$or: [{is_deleted: null}, {is_deleted: false}]},
+				fields: {name: 1, email: 1},
+				strict: false,
+				incremental: false
+			} as any;
+			const change: any = {
+				operationType: 'update',
+				documentKey: {_id: 'different-id'},
+				updateDescription: {
+					updatedFields: {is_deleted: true},
+					removedFields: []
+				}
+			};
+			expect((mockStore as any).shouldReload(change)).toBe(true);
+		});
+
 		it('should return false if no field intersections', () => {
 			mockStore.config = {
 				query: {_id: 'test-id'},
@@ -394,6 +412,22 @@ describe('document.store tests', () => {
 				operationType: 'update',
 				documentKey: {_id: 'test-id'}
 			};
+			expect((mockStore as any)._pipeFilter(change)).toBe(true);
+		});
+
+		it('should pass changes that touch a query field even when the document no longer matches', () => {
+			mockStore.config = {
+				query: {$or: [{is_deleted: null}, {is_deleted: false}]},
+				strict: false,
+				incremental: false
+			} as any;
+			const change: any = {
+				operationType: 'update',
+				documentKey: {_id: 'other-id'},
+				updateDescription: {updatedFields: {is_deleted: true}, removedFields: []},
+				fullDocument: {_id: 'other-id', is_deleted: true}
+			};
+
 			expect((mockStore as any)._pipeFilter(change)).toBe(true);
 		});
 

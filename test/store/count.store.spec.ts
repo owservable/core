@@ -64,12 +64,37 @@ describe('count.store tests', () => {
 			expect((mockStore as any).shouldReload({operationType: 'insert'})).toBe(true);
 		});
 
-		it('should return false for replace operation', () => {
-			expect((mockStore as any).shouldReload({operationType: 'replace'})).toBe(false);
+		it('should return true for replace operation without update description', () => {
+			expect((mockStore as any).shouldReload({operationType: 'replace'})).toBe(true);
 		});
 
-		it('should return false for update operation', () => {
-			expect((mockStore as any).shouldReload({operationType: 'update'})).toBe(false);
+		it('should return true for update operation without update description', () => {
+			expect((mockStore as any).shouldReload({operationType: 'update'})).toBe(true);
+		});
+
+		it('should return true for update that touches a query field', () => {
+			const change: any = {
+				operationType: 'update',
+				updateDescription: {updatedFields: {status: 'inactive'}, removedFields: []}
+			};
+			expect((mockStore as any).shouldReload(change)).toBe(true);
+		});
+
+		it('should return true for update that touches a field nested inside $or', () => {
+			(mockStore as any)._query = {$or: [{is_deleted: null}, {is_deleted: false}]};
+			const change: any = {
+				operationType: 'update',
+				updateDescription: {updatedFields: {is_deleted: true}, removedFields: []}
+			};
+			expect((mockStore as any).shouldReload(change)).toBe(true);
+		});
+
+		it('should return false for update that does not touch the query', () => {
+			const change: any = {
+				operationType: 'update',
+				updateDescription: {updatedFields: {name: 'renamed'}, removedFields: []}
+			};
+			expect((mockStore as any).shouldReload(change)).toBe(false);
 		});
 
 		it('should return false for unknown operation', () => {

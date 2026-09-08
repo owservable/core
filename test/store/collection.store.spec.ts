@@ -69,6 +69,60 @@ describe('collection.store tests', () => {
 			expect((mockStore as any).shouldReload(change)).toBe(true);
 		});
 
+		it('should return true when a field nested inside $or leaves the filter', () => {
+			mockStore.config = {
+				query: {$or: [{is_deleted: {$eq: null}}, {is_deleted: {$eq: false}}]},
+				fields: ['id', 'name'],
+				strict: false,
+				incremental: false
+			} as any;
+			const change: any = {
+				operationType: 'update',
+				updateDescription: {
+					updatedFields: {is_deleted: true},
+					removedFields: []
+				},
+				fullDocument: {id: '1', name: 'n', is_deleted: true}
+			};
+			expect((mockStore as any).shouldReload(change)).toBe(true);
+		});
+
+		it('should return true when a field nested inside $and is removed', () => {
+			mockStore.config = {
+				query: {$and: [{name: {$ilike: '%a%'}}, {$or: [{is_deleted: null}, {is_deleted: false}]}]},
+				fields: ['id', 'name'],
+				strict: false,
+				incremental: false
+			} as any;
+			const change: any = {
+				operationType: 'update',
+				updateDescription: {
+					updatedFields: {updated_at: 'now'},
+					removedFields: ['is_deleted']
+				},
+				fullDocument: {id: '1', name: 'a'}
+			};
+			expect((mockStore as any).shouldReload(change)).toBe(true);
+		});
+
+		it('should return false when a nested query is untouched and projection does not intersect', () => {
+			mockStore.config = {
+				query: {$or: [{is_deleted: null}, {is_deleted: false}]},
+				fields: ['id', 'name'],
+				strict: false,
+				incremental: false
+			} as any;
+			const change: any = {
+				operationType: 'update',
+				updateDescription: {
+					updatedFields: {internal_note: 'x'},
+					removedFields: []
+				},
+				fullDocument: {id: '1', name: 'n', is_deleted: false, internal_note: 'x'}
+			};
+			expect((mockStore as any).shouldReload(change)).toBe(false);
+		});
+
 		it('should return true for delete operation', () => {
 			const change: any = {
 				operationType: 'delete',
@@ -203,6 +257,51 @@ describe('collection.store tests', () => {
 			await (mockStore as any).loadIncremental(1000, 'test-sub', change);
 
 			expect((mockStore as any).emitDelete).toHaveBeenCalledWith(1000, 'test-sub', 'test-id');
+		});
+
+		it('should emit delete when an updated document no longer matches the query', async () => {
+			mockStore.config = {
+				query: {$or: [{is_deleted: null}, {is_deleted: false}]},
+				strict: false,
+				incremental: true,
+				populates: ['user'],
+				virtuals: ['fullName']
+			} as any;
+			const change: any = {
+				operationType: 'update',
+				documentKey: {_id: 'test-id'},
+				updateDescription: {updatedFields: {is_deleted: true}, removedFields: []},
+				fullDocument: {_id: 'test-id', is_deleted: true}
+			};
+
+			await (mockStore as any).loadIncremental(1000, 'test-sub', change);
+
+			expect((mockStore as any).emitDelete).toHaveBeenCalledWith(1000, 'test-sub', 'test-id');
+			expect((mockStore as any).emitMany).not.toHaveBeenCalled();
+			expect(mockBackend.populate).not.toHaveBeenCalled();
+			expect(mockBackend.resolveVirtuals).not.toHaveBeenCalled();
+		});
+
+		it('should emit document when an updated document still matches the query', async () => {
+			mockStore.config = {
+				query: {$or: [{is_deleted: null}, {is_deleted: false}]},
+				strict: false,
+				incremental: true,
+				populates: [],
+				virtuals: []
+			} as any;
+			const fullDocument: any = {_id: 'test-id', is_deleted: false, name: 'renamed'};
+			const change: any = {
+				operationType: 'update',
+				documentKey: {_id: 'test-id'},
+				updateDescription: {updatedFields: {name: 'renamed'}, removedFields: []},
+				fullDocument
+			};
+
+			await (mockStore as any).loadIncremental(1000, 'test-sub', change);
+
+			expect((mockStore as any).emitDelete).not.toHaveBeenCalled();
+			expect((mockStore as any).emitMany).toHaveBeenCalledWith(1000, 'test-sub', {data: fullDocument});
 		});
 
 		it('should emit document for insert operations', async () => {

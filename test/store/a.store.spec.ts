@@ -39,6 +39,10 @@ class TestStore extends AStore {
 		return this.testDocument(document);
 	}
 
+	public testTouchesQuery(change: any): boolean {
+		return this.touchesQuery(change);
+	}
+
 	public testEmitOne(startTime: number, subscriptionId: string, update: any = {}): void {
 		return this.emitOne(startTime, subscriptionId, update);
 	}
@@ -322,6 +326,25 @@ describe('a.store tests', () => {
 			} finally {
 				consoleSpy.mockRestore();
 			}
+		});
+	});
+
+	describe('touchesQuery', () => {
+		it('should return true when a changed field is referenced anywhere in the query', () => {
+			mockStore.config = {query: {$or: [{is_deleted: null}, {is_deleted: false}]}, strict: false, incremental: false} as any;
+			const change: any = {updateDescription: {updatedFields: {is_deleted: true}, removedFields: []}};
+			expect(mockStore.testTouchesQuery(change)).toBe(true);
+		});
+
+		it('should return false when no changed field is referenced in the query', () => {
+			mockStore.config = {query: {$or: [{is_deleted: null}, {is_deleted: false}]}, strict: false, incremental: false} as any;
+			const change: any = {updateDescription: {updatedFields: {name: 'x'}, removedFields: []}};
+			expect(mockStore.testTouchesQuery(change)).toBe(false);
+		});
+
+		it('should return false without an update description', () => {
+			mockStore.config = {query: {status: 'active'}, strict: false, incremental: false} as any;
+			expect(mockStore.testTouchesQuery({operationType: 'insert'})).toBe(false);
 		});
 	});
 

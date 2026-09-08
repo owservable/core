@@ -4,7 +4,7 @@ import sift from 'sift';
 import {randomUUID} from 'node:crypto';
 import {createRequire} from 'node:module';
 import type {DiffPatcher} from 'jsondiffpatch';
-import {cloneDeep, each, get, includes, isEmpty, isNil, omit, omitBy, set} from 'lodash';
+import {cloneDeep, each, get, includes, intersection, isEmpty, isNil, omit, omitBy, set} from 'lodash';
 
 import {throttleTime} from 'rxjs/operators';
 import {asyncScheduler, Subject, Subscription} from 'rxjs';
@@ -12,6 +12,8 @@ import {asyncScheduler, Subject, Subscription} from 'rxjs';
 import EStoreType from '../enums/store.type.enum';
 import IObservableBackend from '../backend/i.observable.backend';
 import getMillisecondsFrom from '../functions/performance/get.milliseconds.from';
+import changedFields from '../functions/query/changed.fields';
+import collectQueryFields from '../functions/query/collect.query.fields';
 import StoreSubscriptionConfigType from '../types/store.subscription.config.type';
 
 import 'json-circular-stringify';
@@ -134,6 +136,10 @@ export default abstract class AStore extends Subject<any> {
 		} else {
 			this._fields = fieldsResolved;
 		}
+	}
+
+	protected touchesQuery(change: any): boolean {
+		return !isEmpty(intersection(collectQueryFields(this._query), changedFields(change)));
 	}
 
 	protected testDocument(document: any): boolean {

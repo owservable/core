@@ -10,10 +10,11 @@ import IObservableBackend from '../../backend/i.observable.backend';
 
 const storeFactory = (scope: StoreScopeType, observe: string, target: string): AStore => {
 	const backend: IObservableBackend = BackendRegistry.get(observe);
-	if (!backend)
+	if (!backend) {
 		throw new Error(
 			`[@owservable/core] -> storeFactory: no backend registered for observe "${observe}" (target "${target}"). Registered backends: ${BackendRegistry.keys().join(', ') || '<none>'}`
 		);
+	}
 
 	if (scope === 'many') return new CollectionStore(backend, target);
 	if (scope === 'count') return new CountStore(backend, target);

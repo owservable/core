@@ -77,10 +77,17 @@ describe('store.factory tests', () => {
 		expect((result as any)._backend).toBe(otherBackend);
 	});
 
-	it('should pass a null backend for unregistered observe keys', () => {
-		const result: AStore = storeFactory('one', 'unregistered', 'testTarget');
+	it('should throw for unregistered observe keys', () => {
+		expect(() => storeFactory('one', 'unregistered', 'testTarget')).toThrow(
+			'[@owservable/core] -> storeFactory: no backend registered for observe "unregistered" (target "testTarget"). Registered backends: testCollection'
+		);
+	});
 
-		expect(result).toBeInstanceOf(DocumentStore);
-		expect((result as any)._backend).toBeNull();
+	it('should report <none> when no backends are registered', () => {
+		BackendRegistry.clear();
+
+		expect(() => storeFactory('one', 'unregistered', 'testTarget')).toThrow(
+			'[@owservable/core] -> storeFactory: no backend registered for observe "unregistered" (target "testTarget"). Registered backends: <none>'
+		);
 	});
 });

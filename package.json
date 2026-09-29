@@ -1,6 +1,6 @@
 {
 	"name": "@owservable/core",
-	"version": "3.1.7",
+	"version": "3.2.0",
 	"description": "owservable core: reactive data protocol, stores and backend interface",
 	"engines": {
 		"node": ">=24.12.0"
@@ -40,10 +40,10 @@
 		"preinstall": "npx only-allow pnpm"
 	},
 	"dependencies": {
-		"@owservable/actions": "^3.1.7",
-		"@owservable/folders": "^3.1.7",
+		"@owservable/actions": "^3.2.0",
+		"@owservable/folders": "^3.2.0",
 		"@types/lodash": "^4.17.25",
-		"@types/node": "^26.6.2",
+		"@types/node": "^26.6.3",
 		"@types/node-cron": "^3.0.11",
 		"json-circular-stringify": "^1.0.1",
 		"jsondiffpatch": "^0.7.6",
@@ -67,7 +67,7 @@
 		"skeletest": "^0.7.5",
 		"source-map-support": "^0.5.21",
 		"strictr": "^0.5.7",
-		"ts-jest": "^29.4.13",
+		"ts-jest": "^29.4.14",
 		"ts-node": "^10.9.2",
 		"typedoc": "^0.28.20",
 		"typescript": "^6.0.3",

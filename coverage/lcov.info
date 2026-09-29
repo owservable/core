@@ -1,5 +1,5 @@
 TN:
-SF:src\owservable.client.ts
+SF:src/owservable.client.ts
 FN:23,(anonymous_8)
 FN:30,(anonymous_9)
 FN:37,(anonymous_10)
@@ -167,7 +167,7 @@ BRF:40
 BRH:40
 end_of_record
 TN:
-SF:src\owservable.core.ts
+SF:src/owservable.core.ts
 FNF:0
 FNH:0
 DA:3,1
@@ -218,7 +218,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:src\backend\backend.registry.ts
+SF:src/backend/backend.registry.ts
 FN:6,(anonymous_0)
 FN:17,(anonymous_1)
 FN:21,(anonymous_2)
@@ -256,7 +256,7 @@ BRF:6
 BRH:6
 end_of_record
 TN:
-SF:src\enums\store.type.enum.ts
+SF:src/enums/store.type.enum.ts
 FN:3,(anonymous_0)
 FNF:1
 FNH:1
@@ -274,7 +274,7 @@ BRF:2
 BRH:2
 end_of_record
 TN:
-SF:src\functions\initiate.cronjobs.ts
+SF:src/functions/initiate.cronjobs.ts
 FN:6,(anonymous_1)
 FNF:1
 FNH:1
@@ -291,7 +291,7 @@ BRF:1
 BRH:1
 end_of_record
 TN:
-SF:src\functions\initiate.watchers.ts
+SF:src/functions/initiate.watchers.ts
 FN:6,(anonymous_1)
 FNF:1
 FNH:1
@@ -308,7 +308,7 @@ BRF:1
 BRH:1
 end_of_record
 TN:
-SF:src\functions\initiate.workers.ts
+SF:src/functions/initiate.workers.ts
 FN:6,(anonymous_1)
 FNF:1
 FNH:1
@@ -325,7 +325,7 @@ BRF:1
 BRH:1
 end_of_record
 TN:
-SF:src\functions\action\add.action.cronjobs.ts
+SF:src/functions/action/add.action.cronjobs.ts
 FN:9,addActionCronjobs
 FNF:1
 FNH:1
@@ -354,7 +354,7 @@ BRF:6
 BRH:6
 end_of_record
 TN:
-SF:src\functions\action\add.action.watchers.ts
+SF:src/functions/action/add.action.watchers.ts
 FN:9,addActionWatchers
 FNF:1
 FNH:1
@@ -383,7 +383,7 @@ BRF:6
 BRH:6
 end_of_record
 TN:
-SF:src\functions\action\add.action.workers.ts
+SF:src/functions/action/add.action.workers.ts
 FN:9,addActionWorkers
 FNF:1
 FNH:1
@@ -412,7 +412,7 @@ BRF:6
 BRH:6
 end_of_record
 TN:
-SF:src\functions\execute\execute.cronjob.ts
+SF:src/functions/execute/execute.cronjob.ts
 FN:7,(anonymous_9)
 FN:9,(anonymous_10)
 FNF:2
@@ -433,7 +433,7 @@ BRF:2
 BRH:2
 end_of_record
 TN:
-SF:src\functions\execute\execute.on.files.recursively.ts
+SF:src/functions/execute/execute.on.files.recursively.ts
 FN:8,(anonymous_9)
 FN:12,(anonymous_10)
 FN:23,(anonymous_11)
@@ -469,7 +469,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:src\functions\execute\execute.processes.in.folder.ts
+SF:src/functions/execute/execute.processes.in.folder.ts
 FN:7,(anonymous_1)
 FN:9,(anonymous_2)
 FNF:2
@@ -488,7 +488,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:src\functions\execute\execute.watcher.ts
+SF:src/functions/execute/execute.watcher.ts
 FN:5,(anonymous_0)
 FN:9,(anonymous_1)
 FN:14,(anonymous_2)
@@ -531,7 +531,7 @@ BRF:19
 BRH:19
 end_of_record
 TN:
-SF:src\functions\execute\execute.worker.ts
+SF:src/functions/execute/execute.worker.ts
 FN:5,(anonymous_0)
 FN:7,(anonymous_1)
 FNF:2
@@ -559,7 +559,7 @@ BRF:10
 BRH:10
 end_of_record
 TN:
-SF:src\functions\performance\get.hrtime.as.number.ts
+SF:src/functions/performance/get.hrtime.as.number.ts
 FN:5,(anonymous_0)
 FNF:1
 FNH:1
@@ -573,7 +573,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:src\functions\performance\get.milliseconds.from.ts
+SF:src/functions/performance/get.milliseconds.from.ts
 FN:5,(anonymous_1)
 FNF:1
 FNH:1
@@ -587,7 +587,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:src\functions\performance\get.seconds.from.ts
+SF:src/functions/performance/get.seconds.from.ts
 FN:7,(anonymous_1)
 FNF:1
 FNH:1
@@ -602,7 +602,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:src\functions\query\changed.fields.ts
+SF:src/functions/query/changed.fields.ts
 FN:5,(anonymous_0)
 FN:7,(anonymous_1)
 FN:12,(anonymous_2)
@@ -645,7 +645,7 @@ BRF:14
 BRH:14
 end_of_record
 TN:
-SF:src\functions\query\collect.query.fields.ts
+SF:src/functions/query/collect.query.fields.ts
 FN:7,(anonymous_0)
 FN:9,(anonymous_1)
 FN:15,(anonymous_2)
@@ -716,7 +716,7 @@ BRF:19
 BRH:19
 end_of_record
 TN:
-SF:src\middleware\data.middleware.map.ts
+SF:src/middleware/data.middleware.map.ts
 FN:6,(anonymous_0)
 FN:10,(anonymous_1)
 FN:14,(anonymous_2)
@@ -739,7 +739,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:src\store\a.store.ts
+SF:src/store/a.store.ts
 FN:27,(anonymous_1)
 FN:31,(anonymous_2)
 FN:60,(anonymous_3)
@@ -960,7 +960,7 @@ BRF:43
 BRH:43
 end_of_record
 TN:
-SF:src\store\collection.store.ts
+SF:src/store/collection.store.ts
 FN:14,(anonymous_17)
 FN:22,(anonymous_18)
 FN:43,(anonymous_19)
@@ -1079,7 +1079,7 @@ BRF:34
 BRH:34
 end_of_record
 TN:
-SF:src\store\count.store.ts
+SF:src/store/count.store.ts
 FN:9,(anonymous_8)
 FN:15,(anonymous_9)
 FN:34,(anonymous_10)
@@ -1126,7 +1126,7 @@ BRF:13
 BRH:13
 end_of_record
 TN:
-SF:src\store\document.store.ts
+SF:src/store/document.store.ts
 FN:15,(anonymous_17)
 FN:18,(anonymous_18)
 FN:24,(anonymous_19)
@@ -1277,7 +1277,7 @@ BRF:45
 BRH:45
 end_of_record
 TN:
-SF:src\store\factories\store.factory.ts
+SF:src/store/factories/store.factory.ts
 FN:11,(anonymous_1)
 FNF:1
 FNH:1
